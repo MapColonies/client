@@ -1,0 +1,57 @@
+{{- if .Values.tools.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "app.fullname" . }}-tools
+  labels:
+    app: {{ template "app.name" . }}
+    component: tools-deployment
+    environment: {{ .Values.environment }}
+    release: {{ .Release.Name }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  replicas: {{ .Values.tools.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "app.name" . }}
+      release: {{ .Release.Name }}
+      run: {{ .Release.Name }}-tools
+  template:
+    metadata:
+      labels:
+        app: {{ template "app.name" . }}
+        release: {{ .Release.Name }}
+        run: {{ .Release.Name }}-tools
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.cloudProvider.imagePullSecretName }} 
+      containers:    
+        - name: {{ .Chart.Name }}-tools
+          image: {{ .Values.cloudProvider.dockerRegistryUrl }}/{{ .Values.tools.image }}:{{ .Values.tools.imageTag }}
+          imagePullPolicy: {{ .Values.cloudProvider.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /env-config.js
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          {{- if .Values.tools.resources.enabled }}
+          resources:
+            limits:
+              cpu: {{ .Values.tools.resources.limits.cpu }}
+              memory: {{ .Values.tools.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.tools.resources.requests.cpu }}
+              memory: {{ .Values.tools.resources.requests.memory }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ template "app.fullname" . }}-tools-configmap
+{{- end }}

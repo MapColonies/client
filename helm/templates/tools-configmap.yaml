@@ -1,0 +1,19 @@
+{{- if .Values.tools.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "app.fullname" . }}-tools-configmap
+  labels:
+    app: {{ template "app.name" . }}
+    component: tools-configmap
+    environment: {{ .Values.environment }}
+    release: {{ .Release.Name }}
+data:
+  CONFIGURATION_IMAGE_TAG: {{ quote .Values.tools.imageTag }}
+  CONFIGURATION_PUBLIC_URL: {{ quote .Values.tools.env.publicUrl }}
+  CONFIGURATION_MAP_CENTER: {{ quote .Values.tools.env.map.center }}
+  CONFIGURATION_MAP_ZOOM: {{ quote .Values.tools.env.map.zoom }}
+  CONFIGURATION_BASE_MAPS: {{ quote .Values.tools.env.baseMaps }}
+  CONFIGURATION_DEFAULT_TERRAIN_PROVIDER_URL: {{ quote .Values.tools.env.defaultTerrainProviderUrl }}
+  CONFIGURATION_APPS: {{ quote .Values.tools.env.apps }}
+{{- end }}

@@ -1,0 +1,28 @@
+{{- if .Values.route.enabled -}}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ template "app.fullname" . }}-tools-route
+  annotations:
+    haproxy.router.openshift.io/rewrite-target: /
+spec:
+  {{- if .Values.route.host }}
+  host: {{ .Values.route.host }}
+  {{- end }}
+  path:  {{ .Values.route.toolsPath }}
+  to:
+    kind: Service
+    name: {{ template "app.fullname" . }}-tools
+  port:
+    targetPort: http
+  {{- if .Values.route.tls }}
+  tls:
+    termination: edge
+    {{- if .Values.route.useCert }}
+    certificate: {{ .Files.Get "config/server-certificate.pem" | quote }}
+    key: {{ .Files.Get "config/server-key.pem" | quote }}
+    caCertificate: {{ .Files.Get "config/caCertificate.pem" | quote }}
+    insecureEdgeTerminationPolicy: Redirect
+    {{- end }}
+  {{- end }}
+{{- end -}}
