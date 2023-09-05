@@ -1,0 +1,55 @@
+{{- if .Values.discreteClient.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "discrete-layer-client.fullname" . }}-ui-configmap
+  labels:
+    app: {{ template "discrete-layer-client.name" . }}
+    component: discrete-layer-client-configmap
+    environment: {{ .Values.environment }}
+    release: {{ .Release.Name }}
+data:
+  CONFIGURATION_IMAGE_TAG: {{ quote .Values.discreteClient.imageTag }}
+  CONFIGURATION_PUBLIC_URL: {{ quote .Values.discreteClient.env.PUBLIC_URL }}
+  CONFIGURATION_SERVICE_URL: {{ quote .Values.discreteClient.env.SERVICE_URL }}
+  CONFIGURATION_SERVICE_PROTOCOL:  {{ quote .Values.discreteClient.env.SERVICE_PROTOCOL }}
+  CONFIGURATION_MAPSERVER_URL: {{ quote .Values.discreteClient.env.MAP_SERVER_URL }}
+  CONFIGURATION_MAPSERVER_PUBLISH_POINT: {{ quote .Values.discreteClient.env.MAP_SERVER_PUBLISH_POINT }}
+  CONFIGURATION_MAPSERVER_CHANNEL: {{ quote .Values.discreteClient.env.MAP_SERVER_CHANNEL }}
+  CONFIGURATION_MAPSERVER_VERSION: {{ quote .Values.discreteClient.env.MAP_SERVER_VERSION }}
+  CONFIGURATION_MAPSERVER_REQUEST: {{ quote .Values.discreteClient.env.MAP_SERVER_REQUEST }}
+  CONFIGURATION_ACTIVE_LAYER: {{ quote .Values.discreteClient.env.ACTIVE_LAYER }}
+  CONFIGURATION_LOGGER_HTTP_HOST: {{ quote .Values.discreteClient.env.LOGGER_HTTP_HOST }}
+  CONFIGURATION_LOGGER_HTTP_PORT: {{ quote .Values.discreteClient.env.LOGGER_HTTP_PORT }}
+  CONFIGURATION_LOGGER_HTTP_PATH: {{ quote .Values.discreteClient.env.LOGGER_HTTP_PATH }}
+  CONFIGURATION_LOGGER_LEVEL: {{ quote .Values.discreteClient.env.LOGGER_LEVEL }}
+  CONFIGURATION_BBOX_AREA_SQUARE_KM_LIMIT: {{ quote .Values.discreteClient.env.BBOX_AREA_SQUARE_KM_LIMIT }}
+  CONFIGURATION_UI_LANGUAGE: {{ quote .Values.discreteClient.env.LANGUAGE }}
+  CONFIGURATION_EXPORT_DEFAULT_ZOOM_LEVEL: {{ quote .Values.discreteClient.env.EXPORT.DEFAULT_ZOOM_LEVEL }}
+  CONFIGURATION_EXPORT_MAX_ZOOM_LEVEL: {{ quote .Values.discreteClient.env.EXPORT.MAX_ZOOM_LEVEL }}
+  CONFIGURATION_MAP_CENTER: {{ quote .Values.discreteClient.env.MAP.CENTER }}
+  CONFIGURATION_MAP_ZOOM: {{ quote .Values.discreteClient.env.MAP.ZOOM }}
+  CONFIGURATION_MAP_USE_OPTIMIZED_TILE_REQUESTS: {{ quote .Values.discreteClient.env.MAP.USE_OPTIMIZED_TILE_REQUESTS }}
+  CONFIGURATION_ACTIVE_LAYER_PROPERTIES_MAPURLPATH: {{ quote .Values.discreteClient.env.ACTIVE_LAYER_PROPERTIES.MAP_URL_PATH }}
+  CONFIGURATION_ACTIVE_LAYER_PROPERTIES_EXPORTPATH: {{ quote .Values.discreteClient.env.ACTIVE_LAYER_PROPERTIES.EXPORT_PATH }}
+  CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_SERVICE: {{ quote .Values.discreteClient.env.ACTIVE_LAYER_PROPERTIES.URL_PATTERN.SERVICE }}
+  CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_LAYERS: {{ quote .Values.discreteClient.env.ACTIVE_LAYER_PROPERTIES.URL_PATTERN.LAYERS }}
+  CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_TILED: {{ quote .Values.discreteClient.env.ACTIVE_LAYER_PROPERTIES.URL_PATTERN.TILED }}
+  CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_MATRIXSET: {{ quote .Values.discreteClient.env.ACTIVE_LAYER_PROPERTIES.URL_PATTERN.MATRIX_SET }}
+  CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_STYLE: {{ quote .Values.discreteClient.env.ACTIVE_LAYER_PROPERTIES.URL_PATTERN.STYLE }}
+  CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_PROJECTION: {{ quote .Values.discreteClient.env.ACTIVE_LAYER_PROPERTIES.URL_PATTERN.PROJECTION }}
+  CONFIGURATION_JOB_STATUS: {{ quote .Values.discreteClient.env.JOB_STATUS }}
+  CONFIGURATION_JOB_STATUS_POLLING_CYCLE_INTERVAL: {{ quote .Values.discreteClient.env.JOB_STATUS.POLLING_CYCLE_INTERVAL }}
+  CONFIGURATION_DEFAULT_USER_ROLE: {{ quote .Values.discreteClient.env.DEFAULT_USER.ROLE }}
+  CONFIGURATION_RUNNING_MODE: {{ quote .Values.discreteClient.env.RUNNING_MODE }}
+  CONFIGURATION_RUNNING_MODE_TYPE: {{ quote .Values.discreteClient.env.RUNNING_MODE.TYPE }}
+  CONFIGURATION_RUNNING_MODE_AUTOCOMPLETE: {{ quote .Values.discreteClient.env.RUNNING_MODE.AUTOCOMPLETE }}
+  CONFIGURATION_BASEMAPS: {{ quote .Values.discreteClient.env.BASE_MAPS }}
+  CONFIGURATION_DEFAULT_TERRAIN_PROVIDER_URL: {{ quote .Values.discreteClient.env.DEFAULT_TERRAIN_PROVIDER_URL }}
+  CONFIGURATION_WEB_TOOLS_URL: {{ quote .Values.discreteClient.env.WEB_TOOLS_URL }}
+  CONFIGURATION_ACCESS_TOKEN_ATTRIBUTE_NAME: {{ quote .Values.globalClientApp.env.ACCESS_TOKEN_ATTRIBUTE_NAME }}
+  CONFIGURATION_ACCESS_TOKEN_INJECTION_TYPE: {{ quote .Values.globalClientApp.env.ACCESS_TOKEN_INJECTION_TYPE }}
+  CONFIGURATION_ACCESS_TOKEN_TOKEN_VALUE: {{ quote .Values.globalClientApp.env.ACCESS_TOKEN_TOKEN_VALUE }}
+  CONFIGURATION_SERVED_ENTITY_TYPES: {{ quote .Values.globalClientApp.env.SERVED_ENTITY_TYPES }}
+  CONFIGURATION_ADMIN_PASSWORD: {{ quote .Values.discreteClient.env.ADMIN_PASSWORD }}
+{{- end }}

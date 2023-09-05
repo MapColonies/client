@@ -1,172 +1,190 @@
+pullSecretName: acr-registry
+imagePullPolicy: Always
+global:
+  dnshost: apps.v0h0bdx6.eastus.aroapp.io
+splunkIndex: ''
 environment: development
-cloudProvider:
-  dockerRegistryUrl: acrarolibotnonprod.azurecr.io
-  imagePullSecretName: acr-registry
-  imagePullPolicy: Always
-  flavor: azure
-annotations:
-  collectord.io/index: ''
-  collectord.io/logs-output: splunk
-  collectord.io/procstats-output: devnull
-  collectord.io/netstats-output: devnull
-  collectord.io/nettable-output: devnull
-  collectord.io/stats-output: devnull
-route:
-  enabled: true
-  host:
-  uiPath: /
-  bffPath: /bff
-  toolsPath: /tools
-  tls: true
-  useCert: false
+cloudProvider: azure
 ingress:
   enabled: false
-  type: nginx-kubernetes # supported values: 'nginx-org' | 'nginx-kubernetes'
-  host:
-  uiPath: /ui
-  bffPath: /bff
-  toolsPath: /tools
+  type: 'nginx-kubernetes' # supported values: 'nginx-org' | 'nginx-kubernetes'
+  host: '*'
+  ui:
+    externalPath: /ui
+    internalPath: /
+  bff:
+    externalPath: /bff
+    internalPath: /
+  tools:
+    externalPath: /tools
+    internalPath: /
+  tls: []
+route:
+  enabled: false
+  discreteClientPath: /
+  bffPath: /
+  toolsPath: /
   tls: true
-caSecret:
-  name: ''
-  path: /usr/local/share/ca-certificates
-  key: ca.crt
 s3Secret:
   enabled: false
   accessKeyId: ''
   secretAccessKey: ''
-shared:
-  servedEntityTypes: RECORD_ALL,RECORD_RASTER,RECORD_3D,RECORD_DEM
-  accessToken:
-    attributeName: token
-    injectionType: queryParam
-    tokenValue: TOKEN
-ui:
-  enabled: true
-  image: discrete-layer-client
-  imageTag: v1.1.1
-  replicaCount: 1
-  servicePort: 80
-  nodePort: 30019
+globalClientApp:
   env:
-    publicUrl: ''
-    serviceUrl: ''
-    serviceProtocol: http://
-    mapServerPublishPoint: ''
-    mapServerUrl: ''
-    mapServerChannel: ''
-    mapServerVersion: ''
-    mapServerRequest: ''
-    activeLayer: OSM_LAYER
-    loggerHttpHost: ''
-    loggerHttpPort: ''
-    loggerHttpPath: ''
-    loggerLevel: warn
-    bboxAreaSquareKmLimit: 10000
-    language: he
-    jobStatus:
-      pollingCycleInterval: 60000
-    defaultUser:
-      role: USER
-    runningMode:
-      type: PRODUCTION
-      autoComplete: false
-    export:
-      deafultZoomLevel: '' #todo
-      maxZoomLevel: '' #todo
-    map:
-      center: '[34.811, 31.908]'
-      zoom: 14
-      useOptimizedTileRequests: false
-    baseMaps: '{"maps":[{"id":"1st","title":"1st Map","thumbnail":"https://nsw.digitaltwin.terria.io/build/3456d1802ab2ef330ae2732387726771.png","baseRasteLayers":[{"id":"GOOGLE_TERRAIN","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}","layers":"","credit":"GOOGLE"}},{"id":"INFRARED_RASTER","type":"WMS_LAYER","opacity":0.6,"zIndex":1,"options":{"url":"https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_ir.cgi?","layers":"goes_conus_ir","credit":"Infrared data courtesy Iowa Environmental Mesonet","parameters":{"transparent":"true","format":"image/png"}}}],"baseVectorLayers":[]},{"id":"2nd","title":"2nd Map","thumbnail":"https://nsw.digitaltwin.terria.io/build/efa2f6c408eb790753a9b5fb2f3dc678.png","baseRasteLayers":[{"id":"RADAR_RASTER","type":"WMS_LAYER","opacity":0.6,"zIndex":1,"options":{"url":"https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi?","layers":"nexrad-n0r","credit":"Radar data courtesy Iowa Environmental Mesonet","parameters":{"transparent":"true","format":"image/png"}}},{"id":"GOOGLE_TERRAIN","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}","layers":"","credit":"GOOGLE"}},{"id":"VECTOR_TILES_GPS","type":"XYZ_LAYER","opacity":1,"zIndex":2,"options":{"url":"https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png","layers":"","credit":"openstreetmap"}}],"baseVectorLayers":[]},{"id":"3rd","title":"3rd Map","isCurrent":true,"thumbnail":"https://nsw.digitaltwin.terria.io/build/d8b97d3e38a0d43e5a06dea9aae17a3e.png","baseRasteLayers":[{"id":"VECTOR_TILES","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38","layers":"","credit":"thunderforest"}},{"id":"VECTOR_TILES_GPS_1","type":"XYZ_LAYER","opacity":1,"zIndex":1,"options":{"url":"https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png","layers":"","credit":"openstreetmap"}}],"baseVectorLayers":[]},{"id":"4th","title":"4th MapProxy","isCurrent":false,"thumbnail":"","baseRasteLayers":[{"id":"AZURE_RASTER_WMTS_BLUE_MARBLE_2","type":"WMTS_LAYER","opacity":1,"zIndex":0,"options":{"url":"http://mapproxy-dev-map-proxy-map-proxy-route-raster-dev.apps.v0h0bdx6.eastus.aroapp.io/wmts/blue_marb_2/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png","format":"image/png","layer":"blue_marb_2","style":"default","tileMatrixSetID":"newGrids"}},{"id":"AZURE_RASTER_WMTS_BLUEMARBEL_IL","type":"WMTS_LAYER","opacity":1,"zIndex":0,"options":{"url":"http://map-raster.apps.v0h0bdx6.eastus.aroapp.io/wmts/bluemarble_il/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png","layer":"bluemarble_il","style":"default","format":"image/png","tileMatrixSetID":"newGrids"}}],"baseVectorLayers":[]}]}'
-    defaultTerrainProviderUrl: ''
-    webToolsUrl: ''
-    adminPassword: 123456
-    activeLayerPropeties:
-      mapUrlPath: '' #todo
-      exportPath: '' #todo
-      urlPattern:
-        service: ''
-        layers: ''
-        tiled: true
-        matrixSet: ''
-        style: ''
-        projection: ''
+    SERVED_ENTITY_TYPES: 'RECORD_ALL,RECORD_RASTER,RECORD_3D,RECORD_DEM'
+    ACCESS_TOKEN_ATTRIBUTE_NAME: token
+    ACCESS_TOKEN_INJECTION_TYPE: queryParam
+    ACCESS_TOKEN_TOKEN_VALUE: TOKEN
+discreteClient:
+  enabled: true
+  image: acrarolibotnonprod.azurecr.io/discrete-layer-client
+  imageTag: v1.19.0
+  SERVICE_PORT: 80
+  env:
+    IMAGE_TAG: v1.19.0
+    PUBLIC_URL: ''
+    SERVICE_URL: ''
+    SERVICE_PROTOCOL: 'http://'
+    MAP_SERVER_PUBLISH_POINT: ''
+    MAP_SERVER_URL: ''
+    MAP_SERVER_CHANNEL: ''
+    MAP_SERVER_VERSION: ''
+    MAP_SERVER_REQUEST: ''
+    ACTIVE_LAYER: OSM_LAYER
+    LOGGER_HTTP_HOST: ''
+    LOGGER_HTTP_PORT: ''
+    LOGGER_HTTP_PATH: ''
+    LOGGER_LEVEL: warn
+    BBOX_AREA_SQUARE_KM_LIMIT: 10000
+    LANGUAGE: he
+    JOB_STATUS:
+      POLLING_CYCLE_INTERVAL: 60000
+    DEFAULT_USER:
+      ROLE: USER
+    RUNNING_MODE:
+      TYPE: PRODUCTION
+      AUTOCOMPLETE: false
+    EXPORT:
+      DEFAULT_ZOOM_LEVEL: todo
+      MAX_ZOOM_LEVEL: todo
+    MAP:
+      CENTER: '[34.811, 31.908]'
+      ZOOM: 14
+      USE_OPTIMIZED_TILE_REQUESTS: false
+    BASE_MAPS: >-
+      {"maps":[{"id":"1st","title":"1st Map
+      Title","thumbnail":"https://nsw.digitaltwin.terria.io/build/3456d1802ab2ef330ae2732387726771.png","baseRasteLayers":[{"id":"GOOGLE_TERRAIN","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}","layers":"","credit":"GOOGLE"}},{"id":"INFRARED_RASTER","type":"WMS_LAYER","opacity":0.6,"zIndex":1,"options":{"url":"https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_ir.cgi?","layers":"goes_conus_ir","credit":"Infrared
+      data courtesy Iowa Environmental
+      Mesonet","parameters":{"transparent":"true","format":"image/png"}}}],"baseVectorLayers":[]},{"id":"2nd","title":"2nd
+      Map
+      Title","thumbnail":"https://nsw.digitaltwin.terria.io/build/efa2f6c408eb790753a9b5fb2f3dc678.png","baseRasteLayers":[{"id":"RADAR_RASTER","type":"WMS_LAYER","opacity":0.6,"zIndex":1,"options":{"url":"https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi?","layers":"nexrad-n0r","credit":"Radar
+      data courtesy Iowa Environmental
+      Mesonet","parameters":{"transparent":"true","format":"image/png"}}},{"id":"GOOGLE_TERRAIN","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}","layers":"","credit":"GOOGLE"}},{"id":"VECTOR_TILES_GPS","type":"XYZ_LAYER","opacity":1,"zIndex":2,"options":{"url":"https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png","layers":"","credit":"openstreetmap"}}],"baseVectorLayers":[]},{"id":"3rd","title":"3rd
+      Map
+      Title","isCurrent":true,"thumbnail":"https://nsw.digitaltwin.terria.io/build/d8b97d3e38a0d43e5a06dea9aae17a3e.png","baseRasteLayers":[{"id":"VECTOR_TILES","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38","layers":"","credit":"thunderforest"}},{"id":"VECTOR_TILES_GPS_1","type":"XYZ_LAYER","opacity":1,"zIndex":1,"options":{"url":"https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png","layers":"","credit":"openstreetmap"}}],"baseVectorLayers":[]},{"id":"4th","title":"4th
+      MapProxy","isCurrent":false,"thumbnail":"","baseRasteLayers":[{"id":"AZURE_RASTER_WMTS_BLUE_MARBLE_2","type":"WMTS_LAYER","opacity":1,"zIndex":0,"options":{"url":"http://mapproxy-dev-map-proxy-map-proxy-route-raster-dev.apps.v0h0bdx6.eastus.aroapp.io/wmts/blue_marb_2/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png","format":"image/png","layer":"blue_marb_2","style":"default","tileMatrixSetID":"newGrids"}},{"id":"AZURE_RASTER_WMTS_BLUEMARBEL_IL","type":"WMTS_LAYER","opacity":1,"zIndex":0,"options":{"url":"http://map-raster.apps.v0h0bdx6.eastus.aroapp.io/wmts/bluemarble_il/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png","layer":"bluemarble_il","style":"default","format":"image/png","tileMatrixSetID":"newGrids"}}],"baseVectorLayers":[]}]}
+    DEFAULT_TERRAIN_PROVIDER_URL: ''
+    WEB_TOOLS_URL: ''
+    ADMIN_PASSWORD: '123456'
+    ACTIVE_LAYER_PROPERTIES:
+      MAP_URL_PATH: todo
+      EXPORT_PATH: todo
+      URL_PATTERN:
+        SERVICE: ''
+        LAYERS: ''
+        TILED: true
+        MATRIX_SET: ''
+        STYLE: ''
+        PROJECTION: ''
+  NODE_PORT: 30019
+  replicaCount: 1
   resources:
     enabled: true
-    limits:
-      cpu: 200m
-      memory: 500Mi
     requests:
-      cpu: 50m
-      memory: 500Mi
+      memory: 1Gi
+      cpu: '1'
+    limits:
+      memory: 2Gi
+      cpu: '1'
 bff:
   enabled: true
-  image: catalog-web-app-bff
-  imageTag: v1.2.2
-  replicaCount: 1
-  servicePort: 80
-  nodePort: 30020
+  image: acrarolibotnonprod.azurecr.io/catalog-web-app-bff
+  imageTag: v1.11.1
+  SERVICE_PORT: 80
   env:
-    serverPort: 8080
-    openapiFilePath: ./openapi3.yaml
-    logLevel: info
-    requestPayloadLimit: 1mb
-    responseCompressionEnabled: true
-    cswRasterUrl: ''
-    csw3DUrl: ''
-    cswDEMUrl: ''
-    catalogServiceRasterUrl: ''
-    catalogService3DUrl: ''
-    catalogServiceDEMUrl: NOT_IMPLEMENTED
-    ingestionServiceRasterUrl: ''
-    ingestionService3DUrl: ''
-    ingestionServiceDEMUrl: NOT_IMPLEMENTED
-    storageExplorerRasterUrl: ''
-    storageExplorer3DUrl: ''
-    storageExplorerDEMUrl: NOT_IMPLEMENTED
-    exportLayerRasterUrl: ''
-    exportLayer3DUrl: NOT_IMPLEMENTED
-    exportLayerDEMUrl: NOT_IMPLEMENTED
-    jobManagerServiceCommonUrl: ''
-    lookupTablesServiceUrl: ''
-    serviceDiscoveryUrl: ''
-    externalServices:
-      pycswRecordRasterUrl: ''
-      pycswRecord3DUrl: ''
-      pycswRecordDEMUrl: ''
-      mapServerRecordRasterUrl: ''
-    mapServiceRasterUrl: ''
-    wfsUrl: ''
-    wfsServicesConfig: '{"buildings": {"color": "#0465b0", "outlineColor": "#0465b0", "dWithin": 3, "isVisualized": true, "translationId": "actions.wfs.buildings-title", "icon": "location_city"}, "addrs": {"translationId": "תשאול כתובת", "isVisualized": "false"}}'
+    OPENAPI_FILE_PATH: ./openapi3.yaml
+    LOG_LEVEL: info
+    SERVER_PORT: 8080
+    REQUEST_PAYLOAD_LIMIT: 1mb
+    RESPONSE_COMPRESSION_ENABLED: true
+    CSW_RASTER_URL: ''
+    CSW_3D_URL: ''
+    CSW_DEM_URL: ''
+    MAP_SERVICE_RASTER_URL: ''
+    CATALOG_SERVICE_RASTER_URL: ''
+    CATALOG_SERVICE_3D_URL: ''
+    CATALOG_SERVICE_DEM_URL: ''
+    INGESTION_SERVICE_RASTER_URL: ''
+    INGESTION_SERVICE_3D_URL: ''
+    INGESTION_SERVICE_DEM_URL: ''
+    JOB_SERVICE_COMMON_URL: ''
+    STORAGE_EXPLORER_RASTER_URL: ''
+    STORAGE_EXPLORER_3D_URL: ''
+    LOOKUP_TABLES_SERVICE_URL: ''
+    SERVICE_DISCOVERY_URL: ''
+    PYCSW_RECORD_RASTER_URL: ''
+    PYCSW_RECORD_3D_URL: ''
+    PYCSW_RECORD_DEM_URL: ''
+    MAP_SERVER_RECORD_RASTER_URL: ''
+    EXPORT_LAYER_RASTER_URL: ''
+    EXPORT_LAYER_3D_URL: ''
+    EXPORT_LAYER_DEM_URL: ''
+    WFS_URL: ''
+    WFS_SERVICES_CONFIG: >-
+      {"buildings": {"color": "#0465b0", "outlineColor": "#0465b0", "dWithin": 3, "isVisualized": true, "translationId": "actions.wfs.buildings-title", "icon": "location_city"}, "addrs": {"translationId": "תשאול כתובת", "isVisualized": "false"}}
+  NODE_PORT: 30020
+  replicaCount: 1
   resources:
     enabled: true
-    limits:
-      cpu: 500m
-      memory: 500Mi
     requests:
-      cpu: 125m
-      memory: 500Mi
+      memory: 1Gi
+      cpu: '1'
+    limits:
+      memory: 2Gi
+      cpu: '1'
 tools:
   enabled: true
-  image: mc-web-tools
+  image: acrarolibotnonprod.azurecr.io/mc-web-tools
   imageTag: v1.0.0
-  replicaCount: 1
-  servicePort: 80
-  nodePort: 30021
+  SERVICE_PORT: 80
   env:
-    publicUrl: ''
-    map:
-      center: '[34.811, 31.908]'
-      zoom: 14
-    baseMaps: '{"maps":[{"id":"1st","title":"1st Map","thumbnail":"https://nsw.digitaltwin.terria.io/build/3456d1802ab2ef330ae2732387726771.png","baseRasteLayers":[{"id":"GOOGLE_TERRAIN","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}","layers":"","credit":"GOOGLE"}},{"id":"INFRARED_RASTER","type":"WMS_LAYER","opacity":0.6,"zIndex":1,"options":{"url":"https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_ir.cgi?","layers":"goes_conus_ir","credit":"Infrared data courtesy Iowa Environmental Mesonet","parameters":{"transparent":"true","format":"image/png"}}}],"baseVectorLayers":[]},{"id":"2nd","title":"2nd Map","thumbnail":"https://nsw.digitaltwin.terria.io/build/efa2f6c408eb790753a9b5fb2f3dc678.png","baseRasteLayers":[{"id":"RADAR_RASTER","type":"WMS_LAYER","opacity":0.6,"zIndex":1,"options":{"url":"https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi?","layers":"nexrad-n0r","credit":"Radar data courtesy Iowa Environmental Mesonet","parameters":{"transparent":"true","format":"image/png"}}},{"id":"GOOGLE_TERRAIN","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}","layers":"","credit":"GOOGLE"}},{"id":"VECTOR_TILES_GPS","type":"XYZ_LAYER","opacity":1,"zIndex":2,"options":{"url":"https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png","layers":"","credit":"openstreetmap"}}],"baseVectorLayers":[]},{"id":"3rd","title":"3rd Map","isCurrent":true,"thumbnail":"https://nsw.digitaltwin.terria.io/build/d8b97d3e38a0d43e5a06dea9aae17a3e.png","baseRasteLayers":[{"id":"VECTOR_TILES","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38","layers":"","credit":"thunderforest"}},{"id":"VECTOR_TILES_GPS_1","type":"XYZ_LAYER","opacity":1,"zIndex":1,"options":{"url":"https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png","layers":"","credit":"openstreetmap"}}],"baseVectorLayers":[]},{"id":"4th","title":"4th MapProxy","isCurrent":false,"thumbnail":"","baseRasteLayers":[{"id":"AZURE_RASTER_WMTS_BLUE_MARBLE_2","type":"WMTS_LAYER","opacity":1,"zIndex":0,"options":{"url":"http://mapproxy-dev-map-proxy-map-proxy-route-raster-dev.apps.v0h0bdx6.eastus.aroapp.io/wmts/blue_marb_2/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png","format":"image/png","layer":"blue_marb_2","style":"default","tileMatrixSetID":"newGrids"}},{"id":"AZURE_RASTER_WMTS_BLUEMARBEL_IL","type":"WMTS_LAYER","opacity":1,"zIndex":0,"options":{"url":"http://map-raster.apps.v0h0bdx6.eastus.aroapp.io/wmts/bluemarble_il/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png","layer":"bluemarble_il","style":"default","format":"image/png","tileMatrixSetID":"newGrids"}}],"baseVectorLayers":[]}]}'
-    defaultTerrainProviderUrl: ''
-    apps: '{"terrain-verification":{"category":"DEM","name":"Terrain Verification Tool","icon":"map-marker.gif","url":"/terrain-verification","description":"A Terrain Verification Tool","isInternal":true},"developer-portal":{"category":"Libot Mipui","name":"Developer Portal","icon":"developer-portal.png","url":"https://mapcolonies.github.io/developer-portal/#/","width":100,"description":"A central information hub about Libot Mipui documentation, APIs, products and microservices"},"nominatim":{"category":"Vector","name":"Nominatim","icon":"nominatim.svg","url":"https://nominatim.openstreetmap.org/ui/search.html","width":160,"description":"Nominatim is a search engine for OpenStreetMap data. You may search for a name or address (forward search) or look up data by its geographic coordinate (reverse search)"},"sandcastle":{"category":"Cesium","name":"Sandcastle","icon":"cesium.webp","url":"https://sandcastle.cesium.com","width":200,"description":"Sandcastle is a live-coding app for viewing CesiumJS examples. Contextual CesiumJS help for quickly sharing and testing code"}}'
+    IMAGE_TAG: v1.0.0
+    PUBLIC_URL: ''
+    MAP:
+      CENTER: '[34.811, 31.908]'
+      ZOOM: 14
+    BASE_MAPS: >-
+      {"maps":[{"id":"1st","title":"1st Map
+      Title","thumbnail":"https://nsw.digitaltwin.terria.io/build/3456d1802ab2ef330ae2732387726771.png","baseRasteLayers":[{"id":"GOOGLE_TERRAIN","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}","layers":"","credit":"GOOGLE"}},{"id":"INFRARED_RASTER","type":"WMS_LAYER","opacity":0.6,"zIndex":1,"options":{"url":"https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_ir.cgi?","layers":"goes_conus_ir","credit":"Infrared
+      data courtesy Iowa Environmental
+      Mesonet","parameters":{"transparent":"true","format":"image/png"}}}],"baseVectorLayers":[]},{"id":"2nd","title":"2nd
+      Map
+      Title","thumbnail":"https://nsw.digitaltwin.terria.io/build/efa2f6c408eb790753a9b5fb2f3dc678.png","baseRasteLayers":[{"id":"RADAR_RASTER","type":"WMS_LAYER","opacity":0.6,"zIndex":1,"options":{"url":"https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi?","layers":"nexrad-n0r","credit":"Radar
+      data courtesy Iowa Environmental
+      Mesonet","parameters":{"transparent":"true","format":"image/png"}}},{"id":"GOOGLE_TERRAIN","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}","layers":"","credit":"GOOGLE"}},{"id":"VECTOR_TILES_GPS","type":"XYZ_LAYER","opacity":1,"zIndex":2,"options":{"url":"https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png","layers":"","credit":"openstreetmap"}}],"baseVectorLayers":[]},{"id":"3rd","title":"3rd
+      Map
+      Title","isCurrent":true,"thumbnail":"https://nsw.digitaltwin.terria.io/build/d8b97d3e38a0d43e5a06dea9aae17a3e.png","baseRasteLayers":[{"id":"VECTOR_TILES","type":"XYZ_LAYER","opacity":1,"zIndex":0,"options":{"url":"https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38","layers":"","credit":"thunderforest"}},{"id":"VECTOR_TILES_GPS_1","type":"XYZ_LAYER","opacity":1,"zIndex":1,"options":{"url":"https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png","layers":"","credit":"openstreetmap"}}],"baseVectorLayers":[]},{"id":"4th","title":"4th
+      MapProxy","isCurrent":false,"thumbnail":"","baseRasteLayers":[{"id":"AZURE_RASTER_WMTS_BLUE_MARBLE_2","type":"WMTS_LAYER","opacity":1,"zIndex":0,"options":{"url":"http://mapproxy-dev-map-proxy-map-proxy-route-raster-dev.apps.v0h0bdx6.eastus.aroapp.io/wmts/blue_marb_2/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png","format":"image/png","layer":"blue_marb_2","style":"default","tileMatrixSetID":"newGrids"}},{"id":"AZURE_RASTER_WMTS_BLUEMARBEL_IL","type":"WMTS_LAYER","opacity":1,"zIndex":0,"options":{"url":"http://map-raster.apps.v0h0bdx6.eastus.aroapp.io/wmts/bluemarble_il/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png","layer":"bluemarble_il","style":"default","format":"image/png","tileMatrixSetID":"newGrids"}}],"baseVectorLayers":[]}]}
+    DEFAULT_TERRAIN_PROVIDER_URL: ''
+    APPS: >-
+      {"terrain-verification":{"category":"DEM","name":"Terrain Verification Tool","icon":"map-marker.gif","url":"/terrain-verification","description":"A Terrain Verification Tool","isInternal":true},"developer-portal":{"category":"Libot Mipui","name":"Developer Portal","icon":"developer-portal.png","url":"https://mapcolonies.github.io/developer-portal/#/","width":100,"description":"A central information hub about Libot Mipui documentation, APIs, products and microservices"},"nominatim":{"category":"Vector","name":"Nominatim","icon":"nominatim.svg","url":"https://nominatim.openstreetmap.org/ui/search.html","width":160,"description":"Nominatim is a search engine for OpenStreetMap data. You may search for a name or address (forward search) or look up data by its geographic coordinate (reverse search)"},"sandcastle":{"category":"Cesium","name":"Sandcastle","icon":"cesium.webp","url":"https://sandcastle.cesium.com","width":200,"description":"Sandcastle is a live-coding app for viewing CesiumJS examples. Contextual CesiumJS help for quickly sharing and testing code"}}
+  NODE_PORT: 30021
+  replicaCount: 1
   resources:
     enabled: true
-    limits:
-      cpu: 200m
-      memory: 500Mi
     requests:
-      cpu: 50m
-      memory: 500Mi
+      memory: 1Gi
+      cpu: '1'
+    limits:
+      memory: 2Gi
+      cpu: '1'

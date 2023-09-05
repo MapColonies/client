@@ -2,75 +2,64 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "app.fullname" . }}-bff
+  name: {{ template "discrete-layer-client.fullname" . }}-bff
   labels:
-    app: {{ template "app.name" . }}
+    app: {{ template "discrete-layer-client.name" . }}
     component: bff-deployment
     environment: {{ .Values.environment }}
     release: {{ .Release.Name }}
-{{- with .Values.annotations }}
   annotations:
-{{ toYaml . | indent 4 }}
-{{- end }}
+    collectord.io/index: {{ quote .Values.splunkIndex }}    
 spec:
   replicas: {{ .Values.bff.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "app.name" . }}
+      app: {{ template "discrete-layer-client.name" . }}
       release: {{ .Release.Name }}
       run: {{ .Release.Name }}-bff
   template:
     metadata:
       labels:
-        app: {{ template "app.name" . }}
+        app: {{ template "discrete-layer-client.name" . }}
         release: {{ .Release.Name }}
         run: {{ .Release.Name }}-bff
     spec:
       imagePullSecrets:
-        - name: {{ .Values.cloudProvider.imagePullSecretName }} 
+        - name: {{ .Values.pullSecretName }} 
       containers:    
         - name: {{ .Chart.Name }}-bff
-          image: {{ .Values.cloudProvider.dockerRegistryUrl }}/{{ .Values.bff.image }}:{{ .Values.bff.imageTag }}
-          imagePullPolicy: {{ .Values.cloudProvider.imagePullPolicy }}
+          image: "{{ .Values.bff.image }}:{{ .Values.bff.imageTag}}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.bff.env.serverPort }}
+              containerPort: {{ .Values.bff.env.SERVER_PORT }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /docs/api
-              port: {{ .Values.bff.env.serverPort }}
+              port: {{ .Values.bff.env.SERVER_PORT }}
             initialDelaySeconds: 30
             timeoutSeconds: 1
           {{- if .Values.bff.resources.enabled }}
           resources:
-            limits:
-              cpu: {{ .Values.bff.resources.limits.cpu }}
-              memory: {{ .Values.bff.resources.limits.memory }}
             requests:
-              cpu: {{ .Values.bff.resources.requests.cpu }}
               memory: {{ .Values.bff.resources.requests.memory }}
+              cpu: {{ .Values.bff.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.bff.resources.limits.memory }}
+              cpu: {{ .Values.bff.resources.limits.cpu }}
           {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ template "app.fullname" . }}-bff-configmap
+                name: {{ template "discrete-layer-client.fullname" . }}-bff-configmap
           volumeMounts:
-            {{- if .Values.caSecret.name }}
-            - name: root-ca
-              mountPath: {{ .Values.caSecret.path | quote }}
-            {{- end }}
             - name: production-json
               mountPath: /usr/src/app/config/production.json
               subPath: production.json
       volumes:
-        {{- if .Values.caSecret.name }}
-        - name: root-ca
-          secret:
-            secretName: {{ .Values.caSecret.name }}
-        {{- end }}
         - name: production-json
           configMap:
-            name: {{ template "app.fullname" . }}-bff-configmap
+            name: {{ template "discrete-layer-client.fullname" . }}-bff-configmap
             items:
               - key: "production.json"
                 path: "production.json"

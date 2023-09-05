@@ -2,16 +2,16 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: {{ template "discrete-layer-client.fullname" . }}-tools-route
+  name: {{ template "discrete-layer-client.fullname" . }}-route
   annotations:
     haproxy.router.openshift.io/rewrite-target: /
 spec:
-  path:  {{ .Values.route.toolsPath }}
+  path:  {{ .Values.route.discreteClientPath }}
   to:
     kind: Service
-    name: {{ template "discrete-layer-client.fullname" . }}-tools
+    name: {{ template "discrete-layer-client.fullname" . }}-ui
   port:
-    targetPort: http    
+    targetPort: http
   {{- if .Values.route.tls }}
   tls:
     termination: edge
