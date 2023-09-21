@@ -82,6 +82,7 @@ ui:
     defaultTerrainProviderUrl: ''
     webToolsUrl: ''
     adminPassword: 123456
+    projectVersion: ''
     activeLayerPropeties:
       mapUrlPath: '' #todo
       exportPath: '' #todo
