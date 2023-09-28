@@ -141,6 +141,7 @@ bff:
     wfsUrl: ''
     wfsServicesConfig: '{"buildings": {"color": "#0465b0", "outlineColor": "#0465b0", "dWithin": 3, "isVisualized": true, "translationId": "actions.wfs.buildings-title", "icon": "location_city"}, "addrs": {"translationId": "תשאול כתובת", "isVisualized": "false"}}'
     polygonPartsUrl: ''
+    demHeightsUrl: ''
   resources:
     enabled: true
     limits:
