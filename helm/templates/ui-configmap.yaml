@@ -51,4 +51,5 @@ data:
   CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_MATRIXSET: {{ quote .Values.ui.env.activeLayerPropeties.urlPattern.matrixSet }}
   CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_STYLE: {{ quote .Values.ui.env.activeLayerPropeties.urlPattern.style }}
   CONFIGURATION_ACTIVE_LAYER_PROPERTIES_URL_PATTERN_PARAMS_PROJECTION: {{ quote .Values.ui.env.activeLayerPropeties.urlPattern.projection }}
+  CONFIGURATION_WHATSNEW_URL: {{ quote .Values.ui.env.whatsnewUrl }}
 {{- end }}
