@@ -72,7 +72,7 @@ ui:
       type: PRODUCTION
       autoComplete: false
     export:
-      deafultZoomLevel: '' #todo
+      defaultZoomLevel: '' #todo
       maxZoomLevel: '' #todo
     map:
       center: '[34.811, 31.908]'
