@@ -169,6 +169,7 @@ tools:
     mapServiceRasterUrl: ''
     cswRasterUrl: ''
     csw3DUrl: ''
+    shouldShowPrecisionDisclaimer: true
   resources:
     enabled: true
     limits:
