@@ -21,5 +21,5 @@ data:
   CONFIGURATION_CSW_3D_URL: {{ quote .Values.tools.env.csw3DUrl }}
   CONFIGURATION_ACCESS_TOKEN_ATTRIBUTE_NAME: {{ quote .Values.shared.accessToken.attributeName }}
   CONFIGURATION_ACCESS_TOKEN_INJECTION_TYPE: {{ quote .Values.shared.accessToken.injectionType }}
-  SHOULD_SHOW_PRECISION_DISCLAIMER: {{ quote .Values.tools.env.shouldShowPrecisionDisclaimer}}
+  SHOULD_SHOW_PRECISION_DISCLAIMER: {{ quote .Values.tools.env.shouldShowPrecisionDisclaimer }}
 {{- end }}
