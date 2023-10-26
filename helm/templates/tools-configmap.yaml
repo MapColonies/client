@@ -9,6 +9,8 @@ metadata:
     environment: {{ .Values.environment }}
     release: {{ .Release.Name }}
 data:
+  CONFIGURATION_ACCESS_TOKEN_ATTRIBUTE_NAME: {{ quote .Values.shared.accessToken.attributeName }}
+  CONFIGURATION_ACCESS_TOKEN_INJECTION_TYPE: {{ quote .Values.shared.accessToken.injectionType }}
   CONFIGURATION_IMAGE_TAG: {{ quote .Values.tools.imageTag }}
   CONFIGURATION_PUBLIC_URL: {{ quote .Values.tools.env.publicUrl }}
   CONFIGURATION_MAP_CENTER: {{ quote .Values.tools.env.map.center }}
@@ -19,7 +21,5 @@ data:
   CONFIGURATION_MAP_SERVICE_RASTER_URL: {{ quote .Values.tools.env.mapServiceRasterUrl }}
   CONFIGURATION_CSW_RASTER_URL: {{ quote .Values.tools.env.cswRasterUrl }}
   CONFIGURATION_CSW_3D_URL: {{ quote .Values.tools.env.csw3DUrl }}
-  CONFIGURATION_ACCESS_TOKEN_ATTRIBUTE_NAME: {{ quote .Values.shared.accessToken.attributeName }}
-  CONFIGURATION_ACCESS_TOKEN_INJECTION_TYPE: {{ quote .Values.shared.accessToken.injectionType }}
-  SHOULD_SHOW_PRECISION_DISCLAIMER: {{ quote .Values.tools.env.shouldShowPrecisionDisclaimer }}
+  CONFIGURATION_SHOULD_SHOW_PRECISION_DISCLAIMER: {{ quote .Values.tools.env.shouldShowPrecisionDisclaimer }}
 {{- end }}
