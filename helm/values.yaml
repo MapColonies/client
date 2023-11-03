@@ -26,7 +26,8 @@ ingress:
   uiPath: /ui
   bffPath: /bff
   toolsPath: /tools
-  tls: true
+  tls:
+    useExternal:
 caSecret:
   name: ''
   path: /usr/local/share/ca-certificates

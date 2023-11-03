@@ -40,4 +40,10 @@ spec:
                   number: {{ .Values.tools.servicePort }}
             path: {{ .Values.ingress.toolsPath }}{{- if eq .Values.ingress.type "nginx-kubernetes" }}(/|$)(.*){{- end }}
             pathType: Prefix
+  {{- if .Values.ingress.tls.useExternal }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host | quote }}
+    secretName: {{ .Values.ingress.tls.useExternal | quote }}
+  {{- end }}
 {{- end }}
