@@ -18,8 +18,6 @@ data:
   CONFIGURATION_BASE_MAPS: {{ quote .Values.tools.env.baseMaps }}
   CONFIGURATION_DEFAULT_TERRAIN_PROVIDER_URL: {{ quote .Values.tools.env.defaultTerrainProviderUrl }}
   CONFIGURATION_APPS: {{ quote .Values.tools.env.apps }}
-  CONFIGURATION_MAP_SERVICE_RASTER_URL: {{ quote .Values.tools.env.mapServiceRasterUrl }}
-  CONFIGURATION_CSW_RASTER_URL: {{ quote .Values.tools.env.cswRasterUrl }}
   CONFIGURATION_CSW_3D_URL: {{ quote .Values.tools.env.csw3DUrl }}
   CONFIGURATION_SHOULD_SHOW_PRECISION_DISCLAIMER: {{ quote .Values.tools.env.shouldShowPrecisionDisclaimer }}
 {{- end }}
