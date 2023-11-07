@@ -28,7 +28,7 @@ spec:
     spec:
       imagePullSecrets:
         - name: {{ .Values.cloudProvider.imagePullSecretName }}
-      containers:    
+      containers:
         - name: {{ .Chart.Name }}-ui
           image: {{ .Values.cloudProvider.dockerRegistryUrl }}/{{ .Values.ui.image }}:{{ .Values.ui.imageTag }}
           imagePullPolicy: {{ .Values.cloudProvider.imagePullPolicy }}
