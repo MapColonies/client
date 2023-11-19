@@ -3,7 +3,7 @@ cloudProvider:
   dockerRegistryUrl: acrarolibotnonprod.azurecr.io
   imagePullSecretName: acr-registry
   imagePullPolicy: Always
-  flavor: azure
+  flavor: openshift
 annotations:
   collectord.io/index: ''
   collectord.io/logs-output: splunk
