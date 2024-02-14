@@ -43,7 +43,6 @@ data:
   CONFIGURATION_WEB_TOOLS_URL: {{ quote .Values.ui.env.webToolsUrl }}
   CONFIGURATION_MODEL_ANALYZER_ROUTE: {{ quote .Values.ui.env.modelAnalyzerRoute }}
   CONFIGURATION_MODEL_ANALYZER_TOKEN_VALUE: {{ quote .Values.ui.env.modelAnalyzerTokenValue }}
-  CONFIGURATION_ADMIN_PASSWORD: {{ quote .Values.ui.env.adminPassword }}
   CONFIGURATION_PROJECT_VERSION: {{ quote .Values.ui.env.projectVersion }}
   CONFIGURATION_ACTIVE_LAYER_PROPERTIES_MAPURLPATH: {{ quote .Values.ui.env.activeLayerPropeties.mapUrlPath }}
   CONFIGURATION_ACTIVE_LAYER_PROPERTIES_EXPORTPATH: {{ quote .Values.ui.env.activeLayerPropeties.exportPath }}

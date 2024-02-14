@@ -85,7 +85,6 @@ ui:
     modelAnalyzerRoute: ''
     modelAnalyzerTokenValue: ''
     whatsnewUrl: ''
-    adminPassword: 123456
     projectVersion: ''
     activeLayerPropeties:
       mapUrlPath: '' #todo
@@ -146,6 +145,7 @@ bff:
     wfsServicesConfig: '{"buildings": {"color": "#0465b0", "outlineColor": "#0465b0", "dWithin": 3, "isVisualized": true, "translationId": "actions.wfs.buildings-title", "icon": "location_city"}, "addrs": {"translationId": "תשאול כתובת", "isVisualized": "false"}}'
     polygonPartsUrl: ''
     demHeightsUrl: ''
+    adminPassword: 123456
   resources:
     enabled: true
     limits:
