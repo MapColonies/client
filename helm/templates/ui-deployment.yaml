@@ -38,6 +38,12 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
+              path: /manifest.json
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
               path: /env-config.js
               port: 8080
             initialDelaySeconds: 30
