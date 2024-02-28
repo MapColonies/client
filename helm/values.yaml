@@ -32,10 +32,6 @@ caSecret:
   name: ''
   path: /usr/local/share/ca-certificates
   key: ca.crt
-s3Secret:
-  enabled: false
-  accessKeyId: ''
-  secretAccessKey: ''
 shared:
   servedEntityTypes: RECORD_ALL,RECORD_RASTER,RECORD_3D,RECORD_DEM
   accessToken:
