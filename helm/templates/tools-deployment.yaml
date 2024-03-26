@@ -27,8 +27,8 @@ spec:
         run: {{ .Release.Name }}-tools
     spec:
       imagePullSecrets:
-        - name: {{ .Values.cloudProvider.imagePullSecretName }} 
-      containers:    
+        - name: {{ .Values.cloudProvider.imagePullSecretName }}
+      containers:
         - name: {{ .Chart.Name }}-tools
           image: {{ .Values.cloudProvider.dockerRegistryUrl }}/{{ .Values.tools.image }}:{{ .Values.tools.imageTag }}
           imagePullPolicy: {{ .Values.cloudProvider.imagePullPolicy }}
