@@ -1,4 +1,8 @@
 {{- if .Values.ui.enabled -}}
+{{- $environment := include "app.environment" . -}}
+{{- $cloudProviderDockerRegistryUrl := include "app.cloudProviderDockerRegistryUrl" . -}}
+{{- $cloudProviderImagePullSecretName := include "app.cloudProviderImagePullSecretName" . -}}
+{{- $cloudProviderImagePullPolicy := include "app.cloudProviderImagePullPolicy" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,7 +10,7 @@ metadata:
   labels:
     app: {{ template "app.name" . }}
     component: ui-deployment
-    environment: {{ .Values.environment }}
+    environment: {{ $environment }}
     release: {{ .Release.Name }}
 {{- with .Values.annotations }}
   annotations:
@@ -26,12 +30,14 @@ spec:
         release: {{ .Release.Name }}
         run: {{ .Release.Name }}-ui
     spec:
+      {{- if $cloudProviderImagePullSecretName }}
       imagePullSecrets:
-        - name: {{ .Values.cloudProvider.imagePullSecretName }}
+        - name: {{ $cloudProviderImagePullSecretName | quote }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-ui
-          image: {{ .Values.cloudProvider.dockerRegistryUrl }}/{{ .Values.ui.image }}:{{ .Values.ui.imageTag }}
-          imagePullPolicy: {{ .Values.cloudProvider.imagePullPolicy }}
+          image: {{ $cloudProviderDockerRegistryUrl }}/{{ .Values.ui.image }}:{{ .Values.ui.imageTag }}
+          imagePullPolicy: {{ $cloudProviderImagePullPolicy }}
           ports:
             - name: http
               containerPort: 8080

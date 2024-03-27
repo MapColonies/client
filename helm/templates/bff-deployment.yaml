@@ -1,4 +1,8 @@
 {{- if .Values.bff.enabled -}}
+{{- $environment := include "app.environment" . -}}
+{{- $cloudProviderDockerRegistryUrl := include "app.cloudProviderDockerRegistryUrl" . -}}
+{{- $cloudProviderImagePullSecretName := include "app.cloudProviderImagePullSecretName" . -}}
+{{- $cloudProviderImagePullPolicy := include "app.cloudProviderImagePullPolicy" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,7 +10,7 @@ metadata:
   labels:
     app: {{ template "app.name" . }}
     component: bff-deployment
-    environment: {{ .Values.environment }}
+    environment: {{ $environment }}
     release: {{ .Release.Name }}
 {{- with .Values.annotations }}
   annotations:
@@ -26,12 +30,14 @@ spec:
         release: {{ .Release.Name }}
         run: {{ .Release.Name }}-bff
     spec:
+      {{- if $cloudProviderImagePullSecretName }}
       imagePullSecrets:
-        - name: {{ .Values.cloudProvider.imagePullSecretName }} 
+        - name: {{ $cloudProviderImagePullSecretName | quote }}
+      {{- end }}
       containers:    
         - name: {{ .Chart.Name }}-bff
-          image: {{ .Values.cloudProvider.dockerRegistryUrl }}/{{ .Values.bff.image }}:{{ .Values.bff.imageTag }}
-          imagePullPolicy: {{ .Values.cloudProvider.imagePullPolicy }}
+          image: {{ $cloudProviderDockerRegistryUrl }}/{{ .Values.bff.image }}:{{ .Values.bff.imageTag }}
+          imagePullPolicy: {{ $cloudProviderImagePullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.bff.env.serverPort }}

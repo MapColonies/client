@@ -1,4 +1,5 @@
 {{- if .Values.tools.enabled -}}
+{{- $environment := include "app.environment" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,7 +7,7 @@ metadata:
   labels:
     app: {{ template "app.name" . }}
     component: tools-configmap
-    environment: {{ .Values.environment }}
+    environment: {{ $environment }}
     release: {{ .Release.Name }}
 data:
   CONFIGURATION_ACCESS_TOKEN_ATTRIBUTE_NAME: {{ quote .Values.shared.accessToken.attributeName }}
