@@ -17,8 +17,9 @@ route:
   uiPath: /
   bffPath: /bff
   toolsPath: /tools
-  tls: true
-  useCert: false
+  tls:
+    enabled: true
+    useCert: false
 ingress:
   enabled: false
   type: nginx-kubernetes # supported values: 'nginx-org' | 'nginx-kubernetes'
