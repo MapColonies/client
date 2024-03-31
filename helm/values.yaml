@@ -33,6 +33,11 @@ caSecret:
   name: ''
   path: /usr/local/share/ca-certificates
   key: ca.crt
+sso:
+  enabled: false
+  redirectUrl:
+    ui:
+    tools:
 shared:
   servedEntityTypes: RECORD_ALL,RECORD_RASTER,RECORD_3D,RECORD_DEM
   accessToken:

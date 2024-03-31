@@ -10,6 +10,9 @@ metadata:
     environment: {{ $environment }}
     release: {{ .Release.Name }}
 data:
+  {{- if .Values.sso.enabled }}
+  default.conf: {{ tpl (.Files.Get "config/tools/default.conf") . | quote }}
+  {{- end }}
   CONFIGURATION_ACCESS_TOKEN_ATTRIBUTE_NAME: {{ quote .Values.shared.accessToken.attributeName }}
   CONFIGURATION_ACCESS_TOKEN_INJECTION_TYPE: {{ quote .Values.shared.accessToken.injectionType }}
   CONFIGURATION_IMAGE_TAG: {{ quote .Values.tools.imageTag }}
