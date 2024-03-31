@@ -1,3 +1,6 @@
+global:
+  cloudProvider: {}
+  environment: development
 environment: development
 cloudProvider:
   dockerRegistryUrl: acrarolibotnonprod.azurecr.io
