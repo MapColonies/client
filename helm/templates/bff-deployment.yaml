@@ -38,6 +38,9 @@ spec:
         - name: {{ .Chart.Name }}-bff
           image: {{ $cloudProviderDockerRegistryUrl }}/{{ .Values.bff.image }}:{{ .Values.bff.imageTag }}
           imagePullPolicy: {{ $cloudProviderImagePullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 0
           ports:
             - name: http
               containerPort: {{ .Values.bff.env.serverPort }}
