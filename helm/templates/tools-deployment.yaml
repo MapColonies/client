@@ -39,8 +39,8 @@ spec:
           image: {{ $cloudProviderDockerRegistryUrl }}/{{ .Values.tools.image }}:{{ .Values.tools.imageTag }}
           imagePullPolicy: {{ $cloudProviderImagePullPolicy }}
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 1
+            allowPrivilegeEscalation: false
+            runAsUser: 0
           ports:
             - name: http
               containerPort: 8080
