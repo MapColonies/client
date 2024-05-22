@@ -34,7 +34,7 @@ spec:
       imagePullSecrets:
         - name: {{ $cloudProviderImagePullSecretName | quote }}
       {{- end }}
-      containers:    
+      containers:
         - name: {{ .Chart.Name }}-bff
           image: {{ $cloudProviderDockerRegistryUrl }}/{{ .Values.bff.image }}:{{ .Values.bff.imageTag }}
           imagePullPolicy: {{ $cloudProviderImagePullPolicy }}
