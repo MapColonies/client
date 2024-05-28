@@ -40,7 +40,7 @@ spec:
           imagePullPolicy: {{ $cloudProviderImagePullPolicy }}
           securityContext:
             allowPrivilegeEscalation: false
-            runAsUser: 0
+            # runAsUser: 0
           ports:
             - name: http
               containerPort: {{ .Values.bff.env.serverPort }}
