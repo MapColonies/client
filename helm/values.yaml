@@ -36,7 +36,7 @@ caSecret:
   name: ''
   path: /usr/local/share/ca-certificates
   key: ca.crt
-  create: false
+  value:
 sso:
   enabled: false
   redirectUrl:
