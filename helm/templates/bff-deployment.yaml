@@ -40,7 +40,7 @@ spec:
           imagePullPolicy: {{ $cloudProviderImagePullPolicy }}
           securityContext:
             runAsNonRoot: true
-            runAsUser: 1001050000
+            runAsUser: {{ .Values.runAsUser }}
           ports:
             - name: http
               containerPort: {{ .Values.bff.env.serverPort }}
